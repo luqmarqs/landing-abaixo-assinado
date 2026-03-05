@@ -230,3 +230,19 @@ align-items:center;
 color:white;
 
 }
+
+.whatsapp-share{
+background:#25D366;
+color:white;
+border:none;
+padding:16px;
+border-radius:12px;
+font-weight:600;
+cursor:pointer;
+}
+
+.cta.whatsapp{
+background:#25D366;
+color:white;
+margin-left:12px;
+}

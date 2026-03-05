@@ -87,6 +87,15 @@ alert("Assinatura registrada!")
 
 }
 
+const shareWhatsApp = () => {
+
+const url = encodeURIComponent("https://seusite.com")
+const text = encodeURIComponent("Assine este abaixo-assinado contra o feminicídio em Minas Gerais.")
+
+window.open(`https://wa.me/?text=${text}%20${url}`,"_blank")
+
+}
+
 return(
 
 <div>
@@ -110,6 +119,10 @@ Exigimos que o governo estadual assine o
 <a href="#assinar" className="cta glow">
 Assinar abaixo-assinado
 </a>
+
+<button className="cta whatsapp glow" onClick={shareWhatsApp}>
+Compartilhar no WhatsApp
+</button>
 
 </div>
 
@@ -216,6 +229,14 @@ política de privacidade
 Assinar abaixo-assinado
 </button>
 
+<button
+type="button"
+className="whatsapp-share glow"
+onClick={shareWhatsApp}
+>
+Compartilhar no WhatsApp
+</button>
+
 </form>
 
 </div>
@@ -241,8 +262,6 @@ Câmara Municipal de Belo Horizonte
 
 </footer>
 
-
-{/* MODAL */}
 
 {showPrivacy && (
 
