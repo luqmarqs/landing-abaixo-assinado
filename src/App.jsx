@@ -5,6 +5,7 @@ function App(){
 
 const [form,setForm]=useState({
 nome:"",
+cpf:"",
 nascimento:"",
 whatsapp:"",
 email:"",
@@ -12,6 +13,7 @@ cidade:"",
 lgpd:false
 })
 
+const [cpfErro,setCpfErro]=useState("")
 const [showPrivacy,setShowPrivacy]=useState(false)
 const [assinaturas,setAssinaturas]=useState(0)
 
@@ -45,6 +47,59 @@ return value.slice(0,15)
 
 }
 
+/* MASCARA CPF */
+
+const formatCPF=(value)=>{
+
+value=value.replace(/\D/g,"")
+value=value.replace(/(\d{3})(\d)/,"$1.$2")
+value=value.replace(/(\d{3})(\d)/,"$1.$2")
+value=value.replace(/(\d{3})(\d{1,2})$/,"$1-$2")
+
+return value.slice(0,14)
+
+}
+
+/* VALIDADOR CPF */
+
+const validarCPF = (cpf) => {
+
+cpf = cpf.replace(/\D/g, "")
+
+if (cpf.length !== 11) return false
+if (/^(\d)\1+$/.test(cpf)) return false
+
+let soma = 0
+let resto
+
+for (let i = 1; i <= 9; i++)
+soma += parseInt(cpf.substring(i-1, i)) * (11 - i)
+
+resto = (soma * 10) % 11
+
+if (resto === 10 || resto === 11)
+resto = 0
+
+if (resto !== parseInt(cpf.substring(9, 10)))
+return false
+
+soma = 0
+
+for (let i = 1; i <= 10; i++)
+soma += parseInt(cpf.substring(i-1, i)) * (12 - i)
+
+resto = (soma * 10) % 11
+
+if (resto === 10 || resto === 11)
+resto = 0
+
+if (resto !== parseInt(cpf.substring(10, 11)))
+return false
+
+return true
+
+}
+
 const handleChange=(e)=>{
 
 const {name,value,type,checked}=e.target
@@ -60,6 +115,11 @@ const handleSubmit=async(e)=>{
 
 e.preventDefault()
 
+if(cpfErro){
+alert("CPF inválido")
+return
+}
+
 if(!form.lgpd){
 alert("Você precisa aceitar a política de privacidade.")
 return
@@ -71,6 +131,7 @@ const formURL =
 const data=new FormData()
 
 data.append("entry.XXXX1",form.nome)
+data.append("entry.XXXXCPF",form.cpf)
 data.append("entry.XXXX2",form.nascimento)
 data.append("entry.XXXX3",form.whatsapp)
 data.append("entry.XXXX4",form.email)
@@ -120,7 +181,10 @@ Exigimos que o governo estadual assine o
 Assinar abaixo-assinado
 </a>
 
-<button className="cta whatsapp glow" onClick={shareWhatsApp}>
+<button
+className="cta whatsapp glow"
+onClick={shareWhatsApp}
+>
 Compartilhar no WhatsApp
 </button>
 
@@ -150,12 +214,6 @@ Compartilhar no WhatsApp
 
 <h2>Junte-se ao abaixo-assinado</h2>
 
-<p>
-Esta mobilização é uma iniciativa do
-<strong> Gabinete da Vereadora Iza Lourença
-(Câmara Municipal de Belo Horizonte)</strong>.
-</p>
-
 <form onSubmit={handleSubmit}>
 
 <input
@@ -165,6 +223,36 @@ value={form.nome}
 onChange={handleChange}
 required
 />
+
+<input
+name="cpf"
+placeholder="CPF"
+value={form.cpf}
+onChange={(e)=>{
+
+const masked = formatCPF(e.target.value)
+
+setForm({...form, cpf: masked})
+
+if(masked.length === 14){
+
+if(!validarCPF(masked)){
+setCpfErro("CPF inválido")
+}else{
+setCpfErro("")
+}
+
+}else{
+setCpfErro("")
+}
+
+}}
+required
+/>
+
+{cpfErro && (
+<p className="erro-cpf">{cpfErro}</p>
+)}
 
 <input
 type="date"
@@ -261,61 +349,6 @@ Câmara Municipal de Belo Horizonte
 </div>
 
 </footer>
-
-
-{showPrivacy && (
-
-<div
-className="modal-overlay"
-onClick={()=>setShowPrivacy(false)}
->
-
-<div
-className="modal"
-onClick={(e)=>e.stopPropagation()}
->
-
-<button
-className="close"
-onClick={()=>setShowPrivacy(false)}
->
-✕
-</button>
-
-<h2>Política de Privacidade</h2>
-
-<p>
-Este abaixo-assinado é uma iniciativa do
-<strong> Gabinete da Vereadora Iza Lourença
-— Câmara Municipal de Belo Horizonte.</strong>
-</p>
-
-<h3>Objetivo</h3>
-
-<p>
-Mobilizar a sociedade para pressionar o Governo de Minas Gerais
-a aderir ao Pacto Nacional de Enfrentamento ao Feminicídio.
-</p>
-
-<h3>Dados coletados</h3>
-
-<ul>
-<li>Nome completo</li>
-<li>Data de nascimento</li>
-<li>WhatsApp</li>
-<li>E-mail</li>
-<li>Cidade</li>
-</ul>
-
-<h3>Contato</h3>
-
-<p>contato-temporario@exemplo.com</p>
-
-</div>
-
-</div>
-
-)}
 
 </div>
 
