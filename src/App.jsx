@@ -93,6 +93,8 @@ return value.slice(0,15)
 
 const formatCPF=(value)=>{
 
+value = String(value)
+
 value=value.replace(/\D/g,"")
 value=value.replace(/(\d{3})(\d)/,"$1.$2")
 value=value.replace(/(\d{3})(\d)/,"$1.$2")
@@ -178,6 +180,13 @@ setForm({
 const handleSubmit = async (e) => {
 
 e.preventDefault()
+
+const cpfNumeros = form.cpf.replace(/\D/g,"")
+
+if(cpfNumeros.length !== 11 || !validarCPF(form.cpf)){
+alert("CPF inválido")
+return
+}
 
 if(!validarCPF(form.cpf)){
 alert("CPF inválido")
@@ -310,7 +319,16 @@ const masked = formatCPF(e.target.value)
 
 setForm({...form, cpf: masked})
 
-if(masked.length === 14){
+const numero = masked.replace(/\D/g,"")
+
+// se tiver menos de 11 dígitos mas mais que 0
+if(numero.length > 0 && numero.length < 11){
+setCpfErro("CPF incompleto")
+return
+}
+
+// se tiver 11 dígitos valida
+if(numero.length === 11){
 
 if(!validarCPF(masked)){
 setCpfErro("CPF inválido")
