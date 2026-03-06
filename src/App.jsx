@@ -27,19 +27,29 @@ const [fuse,setFuse]=useState(null)
 const [cidadeErro,setCidadeErro] = useState("")
 
 
-// CONTADOR
-
 useEffect(()=>{
 
-fetch("https://docs.google.com/spreadsheets/d/1FAIpQLScn46xJuZuka4P4UnEQjKhQuz3r1vPCoTa06XtuhbMTkiPhhw/gviz/tq?tqx=out:json")
-.then(res=>res.text())
-.then(data=>{
+async function carregarAssinaturas(){
 
-const json = JSON.parse(data.substring(47).slice(0,-2))
-setAssinaturas(json.table.rows.length)
+try{
 
-})
-.catch(()=>setAssinaturas(0))
+const res = await fetch(
+"https://script.google.com/macros/s/AKfycbz-bf8QgHbKJwUa9nYXvcWDjvuuVfGNvy_1AvZRnpvmneSfj9RT5XvS-C4T0wh4-xbc/exec"
+)
+
+const data = await res.json()
+
+setAssinaturas(data.assinaturas)
+
+}catch(err){
+
+console.log("Erro ao carregar contador")
+
+}
+
+}
+
+carregarAssinaturas()
 
 },[])
 
