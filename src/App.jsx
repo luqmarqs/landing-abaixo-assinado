@@ -24,6 +24,7 @@ const [cidadesMG,setCidadesMG]=useState([])
 const [cidadeBusca,setCidadeBusca]=useState("")
 const [cidadesFiltradas,setCidadesFiltradas]=useState([])
 const [fuse,setFuse]=useState(null)
+const [emailErro,setEmailErro] = useState("")
 
 /* CONTADOR DE ASSINATURAS */
 
@@ -163,6 +164,14 @@ if(primeiro < 2 || primeiro > 5) return false
 }
 
 return true
+
+}
+
+const validarEmail = (email) => {
+
+const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+return regex.test(email)
 
 }
 
@@ -313,6 +322,9 @@ required
 name="cpf"
 placeholder="CPF"
 value={form.cpf}
+inputMode="numeric"
+autoComplete="off"
+pattern="[0-9]*"
 onChange={(e)=>{
 
 const masked = formatCPF(e.target.value)
@@ -369,6 +381,8 @@ required
 name="whatsapp"
 placeholder="WhatsApp"
 value={form.whatsapp}
+inputMode="numeric"
+autoComplete="tel"
 onChange={(e)=>{
 
 const masked = formatPhone(e.target.value)
@@ -377,7 +391,14 @@ setForm({...form,whatsapp:masked})
 
 const numero = masked.replace(/\D/g,"")
 
-if(numero.length >= 10){
+// telefone incompleto
+if(numero.length > 0 && numero.length < 10){
+setTelefoneErro("Telefone incompleto")
+return
+}
+
+// valida quando completo
+if(numero.length === 10 || numero.length === 11){
 
 if(!validarTelefoneBR(masked)){
 setTelefoneErro("Telefone inválido")
@@ -402,27 +423,32 @@ type="email"
 name="email"
 placeholder="E-mail"
 value={form.email}
-onChange={handleChange}
-required
-/>
-
-<input
-placeholder="Cidade (MG)"
-value={cidadeBusca}
+autoComplete="email"
 onChange={(e)=>{
 
 const value = e.target.value
 
-setCidadeBusca(value)
+setForm({...form,email:value})
 
-setForm({
-...form,
-cidade:value
-})
+if(value.length > 3){
+
+if(!validarEmail(value)){
+setEmailErro("E-mail inválido")
+}else{
+setEmailErro("")
+}
+
+}else{
+setEmailErro("")
+}
 
 }}
 required
 />
+
+{emailErro && (
+<p className="erro-cpf">{emailErro}</p>
+)}
 
 {cidadesFiltradas.length > 0 && (
 
