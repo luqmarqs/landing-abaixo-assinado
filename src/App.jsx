@@ -430,7 +430,10 @@ required
 {cpfErro && <p className="erro-cpf">{cpfErro}</p>}
 
 
-
+<label className="date-label">
+<span className="date-icon">📅</span>
+Data de nascimento
+</label>
 <input
 type="date"
 name="nascimento"
