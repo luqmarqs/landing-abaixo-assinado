@@ -19,36 +19,33 @@ const [cpfErro,setCpfErro]=useState("")
 const [showPrivacy,setShowPrivacy]=useState(false)
 const [assinaturas,setAssinaturas]=useState(0)
 const [telefoneErro,setTelefoneErro]=useState("")
+const [emailErro,setEmailErro] = useState("")
 
-const [cidadesMG,setCidadesMG]=useState([])
 const [cidadeBusca,setCidadeBusca]=useState("")
 const [cidadesFiltradas,setCidadesFiltradas]=useState([])
 const [fuse,setFuse]=useState(null)
-const [emailErro,setEmailErro] = useState("")
 
-/* CONTADOR DE ASSINATURAS */
+
+// CONTADOR
 
 useEffect(()=>{
 
-fetch("https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/gviz/tq?tqx=out:json")
+fetch("https://docs.google.com/spreadsheets/d/1FAIpQLScn46xJuZuka4P4UnEQjKhQuz3r1vPCoTa06XtuhbMTkiPhhw/gviz/tq?tqx=out:json")
 .then(res=>res.text())
 .then(data=>{
 
 const json = JSON.parse(data.substring(47).slice(0,-2))
-const rows = json.table.rows.length
-
-setAssinaturas(rows)
+setAssinaturas(json.table.rows.length)
 
 })
 .catch(()=>setAssinaturas(0))
 
 },[])
 
-/* CARREGAR CIDADES */
+
+// CARREGAR CIDADES
 
 useEffect(()=>{
-
-setCidadesMG(cidadesMGJSON)
 
 const fuseInstance = new Fuse(cidadesMGJSON,{
 keys:["nome"],
@@ -60,7 +57,8 @@ setFuse(fuseInstance)
 
 },[])
 
-/* BUSCA CIDADES */
+
+// BUSCA
 
 useEffect(()=>{
 
@@ -78,25 +76,54 @@ setCidadesFiltradas(resultado)
 
 },[cidadeBusca,fuse])
 
-/* MASCARA WHATSAPP */
 
-const formatPhone=(value)=>{
 
-value=value.replace(/\D/g,"")
-value=value.replace(/^(\d{2})(\d)/g,"($1) $2")
-value=value.replace(/(\d{5})(\d)/,"$1-$2")
+useEffect(()=>{
 
-return value.slice(0,15)
+const fecharSugestoes = (e) => {
+
+if(!e.target.closest(".cidade-field")){
+setCidadesFiltradas([])
+}
 
 }
 
-/* MASCARA CPF */
+document.addEventListener("click",fecharSugestoes)
+
+return () => {
+document.removeEventListener("click",fecharSugestoes)
+}
+
+},[])
+
+
+// MASCARA TELEFONE
+
+const formatPhone = (value) => {
+
+value = value.replace(/\D/g,"").slice(0,11)
+
+if(value.length <= 2) return value
+
+if(value.length <= 6){
+return `(${value.slice(0,2)}) ${value.slice(2)}`
+}
+
+if(value.length <= 10){
+return `(${value.slice(0,2)}) ${value.slice(2,6)}-${value.slice(6)}`
+}
+
+return `(${value.slice(0,2)}) ${value.slice(2,7)}-${value.slice(7)}`
+}
+
+
+
+// MASCARA CPF
 
 const formatCPF=(value)=>{
 
-value = String(value)
+value = value.replace(/\D/g,"")
 
-value=value.replace(/\D/g,"")
 value=value.replace(/(\d{3})(\d)/,"$1.$2")
 value=value.replace(/(\d{3})(\d)/,"$1.$2")
 value=value.replace(/(\d{3})(\d{1,2})$/,"$1-$2")
@@ -105,7 +132,9 @@ return value.slice(0,14)
 
 }
 
-/* VALIDADOR CPF */
+
+
+// VALIDADOR CPF
 
 const validarCPF = (cpf) => {
 
@@ -145,6 +174,10 @@ return true
 
 }
 
+
+
+// TELEFONE
+
 const validarTelefoneBR = (telefone) => {
 
 const numero = telefone.replace(/\D/g,"")
@@ -159,13 +192,20 @@ if(ddd < 11 || ddd > 99) return false
 if(numero.length === 11 && numero[2] !== "9") return false
 
 if(numero.length === 10){
+
 const primeiro = parseInt(numero[2])
+
 if(primeiro < 2 || primeiro > 5) return false
+
 }
 
 return true
 
 }
+
+
+
+// EMAIL
 
 const validarEmail = (email) => {
 
@@ -175,16 +215,9 @@ return regex.test(email)
 
 }
 
-const handleChange=(e)=>{
 
-const {name,value,type,checked}=e.target
 
-setForm({
-...form,
-[name]: type==="checkbox" ? checked : value
-})
-
-}
+// SUBMIT
 
 const handleSubmit = async (e) => {
 
@@ -193,11 +226,6 @@ e.preventDefault()
 const cpfNumeros = form.cpf.replace(/\D/g,"")
 
 if(cpfNumeros.length !== 11 || !validarCPF(form.cpf)){
-alert("CPF inválido")
-return
-}
-
-if(!validarCPF(form.cpf)){
 alert("CPF inválido")
 return
 }
@@ -212,13 +240,12 @@ alert("Você precisa aceitar a política de privacidade.")
 return
 }
 
-
 const formURL =
 "https://docs.google.com/forms/d/e/1FAIpQLScn46xJuZuka4P4UnEQjKhQuz3r1vPCoTa06XtuhbMTkiPhhw/formResponse"
 
 const data = new FormData()
 
-const [year, month, day] = form.nascimento.split("-")
+const [year,month,day] = form.nascimento.split("-")
 
 data.append("entry.841108454",form.nome)
 data.append("entry.1979888784",form.cpf)
@@ -240,14 +267,23 @@ alert("Assinatura registrada!")
 
 }
 
+
+
+// SHARE
+
 const shareWhatsApp = () => {
 
 const url = encodeURIComponent("https://seusite.com")
+
 const text = encodeURIComponent("Assine este abaixo-assinado contra o feminicídio em Minas Gerais.")
 
 window.open(`https://wa.me/?text=${text}%20${url}`,"_blank")
 
 }
+
+
+
+// RENDER
 
 return(
 
@@ -275,10 +311,7 @@ Exigimos que o governo estadual assine o
 Assinar abaixo-assinado
 </a>
 
-<button
-className="cta whatsapp glow"
-onClick={shareWhatsApp}
->
+<button className="cta whatsapp glow" onClick={shareWhatsApp}>
 Compartilhar no WhatsApp
 </button>
 
@@ -287,6 +320,8 @@ Compartilhar no WhatsApp
 </div>
 
 </header>
+
+
 
 <section className="video-section">
 
@@ -300,6 +335,8 @@ Compartilhar no WhatsApp
 
 </section>
 
+
+
 <section id="assinar" className="form-section">
 
 <div className="container">
@@ -310,13 +347,17 @@ Compartilhar no WhatsApp
 
 <form onSubmit={handleSubmit}>
 
+
+
 <input
 name="nome"
 placeholder="Nome completo"
 value={form.nome}
-onChange={handleChange}
+onChange={(e)=>setForm({...form,nome:e.target.value})}
 required
 />
+
+
 
 <input
 name="cpf"
@@ -324,23 +365,20 @@ placeholder="CPF"
 value={form.cpf}
 inputMode="numeric"
 autoComplete="off"
-pattern="[0-9]*"
 onChange={(e)=>{
 
 const masked = formatCPF(e.target.value)
 
-setForm({...form, cpf: masked})
+setForm({...form,cpf:masked})
 
 const numero = masked.replace(/\D/g,"")
 
-// se tiver menos de 11 dígitos mas mais que 0
-if(numero.length > 0 && numero.length < 11){
+if(numero.length>0 && numero.length<11){
 setCpfErro("CPF incompleto")
 return
 }
 
-// se tiver 11 dígitos valida
-if(numero.length === 11){
+if(numero.length===11){
 
 if(!validarCPF(masked)){
 setCpfErro("CPF inválido")
@@ -356,26 +394,19 @@ setCpfErro("")
 required
 />
 
-{cpfErro && (
-<p className="erro-cpf">{cpfErro}</p>
-)}
+{cpfErro && <p className="erro-cpf">{cpfErro}</p>}
 
-<div className="date-field">
 
-<label className="date-label">
-<span className="date-icon">📅</span>
-Data de nascimento
-</label>
 
 <input
 type="date"
 name="nascimento"
 value={form.nascimento}
-onChange={handleChange}
+onChange={(e)=>setForm({...form,nascimento:e.target.value})}
 required
 />
 
-</div>
+
 
 <input
 name="whatsapp"
@@ -385,20 +416,18 @@ inputMode="numeric"
 autoComplete="tel"
 onChange={(e)=>{
 
-const masked = formatPhone(e.target.value)
+const masked=formatPhone(e.target.value)
 
 setForm({...form,whatsapp:masked})
 
 const numero = masked.replace(/\D/g,"")
 
-// telefone incompleto
-if(numero.length > 0 && numero.length < 10){
+if(numero.length>0 && numero.length<10){
 setTelefoneErro("Telefone incompleto")
 return
 }
 
-// valida quando completo
-if(numero.length === 10 || numero.length === 11){
+if(numero.length===10 || numero.length===11){
 
 if(!validarTelefoneBR(masked)){
 setTelefoneErro("Telefone inválido")
@@ -414,9 +443,9 @@ setTelefoneErro("")
 required
 />
 
-{telefoneErro && (
-<p className="erro-cpf">{telefoneErro}</p>
-)}
+{telefoneErro && <p className="erro-cpf">{telefoneErro}</p>}
+
+
 
 <input
 type="email"
@@ -424,7 +453,7 @@ name="email"
 placeholder="E-mail"
 value={form.email}
 autoComplete="email"
-onChange={(e)=>{
+onInput={(e)=>{
 
 const value = e.target.value
 
@@ -446,15 +475,39 @@ setEmailErro("")
 required
 />
 
-{emailErro && (
-<p className="erro-cpf">{emailErro}</p>
-)}
+{emailErro && <p className="erro-cpf">{emailErro}</p>}
+
+
+
+
+<div className="cidade-field">
+
+<input
+placeholder="Cidade (MG)"
+value={cidadeBusca}
+autoComplete="off"
+onClick={(e)=>e.stopPropagation()}
+onChange={(e)=>{
+
+const value = e.target.value
+
+setCidadeBusca(value)
+
+setForm({
+...form,
+cidade:value
+})
+
+}}
+required
+/>
 
 {cidadesFiltradas.length > 0 && (
 
 <div className="cidade-sugestoes">
 
 {cidadesFiltradas.map((cidade)=>(
+
 <div
 key={cidade.id}
 className="cidade-item"
@@ -466,15 +519,20 @@ setCidadesFiltradas([])
 
 }}
 >
-
 {cidade.nome} - MG
-
 </div>
+
 ))}
 
 </div>
 
 )}
+
+</div>
+
+
+
+
 
 <label className="lgpd">
 
@@ -482,30 +540,25 @@ setCidadesFiltradas([])
 type="checkbox"
 name="lgpd"
 checked={form.lgpd}
-onChange={handleChange}
+onChange={(e)=>setForm({...form,lgpd:e.target.checked})}
 />
 
 <span>
 Eu concordo com o uso dos meus dados conforme a{" "}
-<span
-className="privacy-link"
-onClick={()=>setShowPrivacy(true)}
->
+<span className="privacy-link" onClick={()=>setShowPrivacy(true)}>
 política de privacidade
 </span>
 </span>
 
 </label>
 
+
+
 <button type="submit" className="glow">
 Assinar abaixo-assinado
 </button>
 
-<button
-type="button"
-className="whatsapp-share glow"
-onClick={shareWhatsApp}
->
+<button type="button" className="whatsapp-share glow" onClick={shareWhatsApp}>
 Compartilhar no WhatsApp
 </button>
 
@@ -517,70 +570,22 @@ Compartilhar no WhatsApp
 
 </section>
 
-<footer className="footer">
 
-<div className="container footer-content">
-
-<p>
-Iniciativa do <strong>Gabinete da Vereadora Iza Lourença</strong>
-</p>
-
-<p>
-Câmara Municipal de Belo Horizonte
-</p>
-
-</div>
-
-</footer>
 
 {showPrivacy && (
 
-<div
-className="modal-overlay"
-onClick={()=>setShowPrivacy(false)}
->
+<div className="modal-overlay" onClick={()=>setShowPrivacy(false)}>
 
-<div
-className="modal"
-onClick={(e)=>e.stopPropagation()}
->
+<div className="modal" onClick={(e)=>e.stopPropagation()}>
 
-<button
-className="close"
-onClick={()=>setShowPrivacy(false)}
->
-✕
-</button>
+<button className="close" onClick={()=>setShowPrivacy(false)}>✕</button>
 
 <h2>Política de Privacidade</h2>
 
 <p>
 Este abaixo-assinado é uma iniciativa do
-<strong> Gabinete da Vereadora Iza Lourença
-— Câmara Municipal de Belo Horizonte.</strong>
+<strong> Gabinete da Vereadora Iza Lourença — Câmara Municipal de Belo Horizonte.</strong>
 </p>
-
-<h3>Objetivo</h3>
-
-<p>
-Mobilizar a sociedade para pressionar o Governo de Minas Gerais
-a aderir ao Pacto Nacional de Enfrentamento ao Feminicídio.
-</p>
-
-<h3>Dados coletados</h3>
-
-<ul>
-<li>Nome completo</li>
-<li>CPF</li>
-<li>Data de nascimento</li>
-<li>WhatsApp</li>
-<li>E-mail</li>
-<li>Cidade</li>
-</ul>
-
-<h3>Contato</h3>
-
-<p>contato-temporario@exemplo.com</p>
 
 </div>
 

@@ -346,3 +346,37 @@ align-items:center;
 justify-content:center;
 z-index:999;
 }
+
+
+.cidade-field{
+position:relative;
+width:100%;
+}
+
+.cidade-field input{
+width:100%;
+}
+
+.cidade-sugestoes{
+position:absolute;
+top:100%;
+left:0;
+width:100%;
+background:#111;
+border-radius:10px;
+max-height:200px;
+overflow-y:auto;
+margin-top:6px;
+box-shadow:0 10px 30px rgba(0,0,0,0.6);
+z-index:10;
+}
+
+.cidade-item{
+padding:12px;
+cursor:pointer;
+border-bottom:1px solid rgba(255,255,255,0.05);
+}
+
+.cidade-item:hover{
+background:#1c1c1c;
+}
