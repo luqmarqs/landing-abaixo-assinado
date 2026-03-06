@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react"
 import InstagramVideo from "./InstagramVideo"
+import Fuse from "fuse.js"
+import cidadesMGJSON from "./data/cidadesMG.json"
 
 function App(){
 
@@ -16,6 +18,12 @@ lgpd:false
 const [cpfErro,setCpfErro]=useState("")
 const [showPrivacy,setShowPrivacy]=useState(false)
 const [assinaturas,setAssinaturas]=useState(0)
+const [telefoneErro,setTelefoneErro]=useState("")
+
+const [cidadesMG,setCidadesMG]=useState([])
+const [cidadeBusca,setCidadeBusca]=useState("")
+const [cidadesFiltradas,setCidadesFiltradas]=useState([])
+const [fuse,setFuse]=useState(null)
 
 /* CONTADOR DE ASSINATURAS */
 
@@ -34,6 +42,40 @@ setAssinaturas(rows)
 .catch(()=>setAssinaturas(0))
 
 },[])
+
+/* CARREGAR CIDADES */
+
+useEffect(()=>{
+
+setCidadesMG(cidadesMGJSON)
+
+const fuseInstance = new Fuse(cidadesMGJSON,{
+keys:["nome"],
+threshold:0.3,
+ignoreLocation:true
+})
+
+setFuse(fuseInstance)
+
+},[])
+
+/* BUSCA CIDADES */
+
+useEffect(()=>{
+
+if(!fuse || cidadeBusca.length < 2){
+setCidadesFiltradas([])
+return
+}
+
+const resultado = fuse
+.search(cidadeBusca)
+.slice(0,6)
+.map(r => r.item)
+
+setCidadesFiltradas(resultado)
+
+},[cidadeBusca,fuse])
 
 /* MASCARA WHATSAPP */
 
@@ -100,6 +142,28 @@ return true
 
 }
 
+const validarTelefoneBR = (telefone) => {
+
+const numero = telefone.replace(/\D/g,"")
+
+if(numero.length !== 10 && numero.length !== 11) return false
+if(/^(\d)\1+$/.test(numero)) return false
+
+const ddd = parseInt(numero.substring(0,2))
+
+if(ddd < 11 || ddd > 99) return false
+
+if(numero.length === 11 && numero[2] !== "9") return false
+
+if(numero.length === 10){
+const primeiro = parseInt(numero[2])
+if(primeiro < 2 || primeiro > 5) return false
+}
+
+return true
+
+}
+
 const handleChange=(e)=>{
 
 const {name,value,type,checked}=e.target
@@ -111,12 +175,17 @@ setForm({
 
 }
 
-const handleSubmit=async(e)=>{
+const handleSubmit = async (e) => {
 
 e.preventDefault()
 
-if(cpfErro){
+if(!validarCPF(form.cpf)){
 alert("CPF inválido")
+return
+}
+
+if(!validarTelefoneBR(form.whatsapp)){
+alert("Telefone inválido")
 return
 }
 
@@ -128,7 +197,7 @@ return
 const formURL =
 "https://docs.google.com/forms/d/e/1FAIpQLScn46xJuZuka4P4UnEQjKhQuz3r1vPCoTa06XtuhbMTkiPhhw/formResponse"
 
-const data=new FormData()
+const data = new FormData()
 
 data.append("entry.XXXX1",form.nome)
 data.append("entry.XXXXCPF",form.cpf)
@@ -173,8 +242,10 @@ Exigimos que o governo estadual assine o
 <strong> Pacto Nacional de Enfrentamento ao Feminicídio.</strong>
 </p>
 
+<div className="hero-actions">
+
 <p className="counter">
-<strong>{assinaturas}</strong> pessoas já assinaram
+<strong>{`${assinaturas} pessoas já assinaram`}</strong>
 </p>
 
 <a href="#assinar" className="cta glow">
@@ -190,8 +261,9 @@ Compartilhar no WhatsApp
 
 </div>
 
-</header>
+</div>
 
+</header>
 
 <section className="video-section">
 
@@ -204,7 +276,6 @@ Compartilhar no WhatsApp
 </div>
 
 </section>
-
 
 <section id="assinar" className="form-section">
 
@@ -254,6 +325,13 @@ required
 <p className="erro-cpf">{cpfErro}</p>
 )}
 
+<div className="date-field">
+
+<label className="date-label">
+<span className="date-icon">📅</span>
+Data de nascimento
+</label>
+
 <input
 type="date"
 name="nascimento"
@@ -262,18 +340,39 @@ onChange={handleChange}
 required
 />
 
+</div>
+
 <input
 name="whatsapp"
 placeholder="WhatsApp"
 value={form.whatsapp}
 onChange={(e)=>{
 
-const masked=formatPhone(e.target.value)
+const masked = formatPhone(e.target.value)
+
 setForm({...form,whatsapp:masked})
+
+const numero = masked.replace(/\D/g,"")
+
+if(numero.length >= 10){
+
+if(!validarTelefoneBR(masked)){
+setTelefoneErro("Telefone inválido")
+}else{
+setTelefoneErro("")
+}
+
+}else{
+setTelefoneErro("")
+}
 
 }}
 required
 />
+
+{telefoneErro && (
+<p className="erro-cpf">{telefoneErro}</p>
+)}
 
 <input
 type="email"
@@ -285,12 +384,48 @@ required
 />
 
 <input
-name="cidade"
-placeholder="Cidade"
-value={form.cidade}
-onChange={handleChange}
+placeholder="Cidade (MG)"
+value={cidadeBusca}
+onChange={(e)=>{
+
+const value = e.target.value
+
+setCidadeBusca(value)
+
+setForm({
+...form,
+cidade:value
+})
+
+}}
 required
 />
+
+{cidadesFiltradas.length > 0 && (
+
+<div className="cidade-sugestoes">
+
+{cidadesFiltradas.map((cidade)=>(
+<div
+key={cidade.id}
+className="cidade-item"
+onClick={()=>{
+
+setForm({...form,cidade:cidade.nome})
+setCidadeBusca(cidade.nome)
+setCidadesFiltradas([])
+
+}}
+>
+
+{cidade.nome} - MG
+
+</div>
+))}
+
+</div>
+
+)}
 
 <label className="lgpd">
 
@@ -333,7 +468,6 @@ Compartilhar no WhatsApp
 
 </section>
 
-
 <footer className="footer">
 
 <div className="container footer-content">
@@ -349,6 +483,61 @@ Câmara Municipal de Belo Horizonte
 </div>
 
 </footer>
+
+{showPrivacy && (
+
+<div
+className="modal-overlay"
+onClick={()=>setShowPrivacy(false)}
+>
+
+<div
+className="modal"
+onClick={(e)=>e.stopPropagation()}
+>
+
+<button
+className="close"
+onClick={()=>setShowPrivacy(false)}
+>
+✕
+</button>
+
+<h2>Política de Privacidade</h2>
+
+<p>
+Este abaixo-assinado é uma iniciativa do
+<strong> Gabinete da Vereadora Iza Lourença
+— Câmara Municipal de Belo Horizonte.</strong>
+</p>
+
+<h3>Objetivo</h3>
+
+<p>
+Mobilizar a sociedade para pressionar o Governo de Minas Gerais
+a aderir ao Pacto Nacional de Enfrentamento ao Feminicídio.
+</p>
+
+<h3>Dados coletados</h3>
+
+<ul>
+<li>Nome completo</li>
+<li>CPF</li>
+<li>Data de nascimento</li>
+<li>WhatsApp</li>
+<li>E-mail</li>
+<li>Cidade</li>
+</ul>
+
+<h3>Contato</h3>
+
+<p>contato-temporario@exemplo.com</p>
+
+</div>
+
+</div>
+
+)}
 
 </div>
 
