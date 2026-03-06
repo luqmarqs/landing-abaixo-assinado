@@ -24,6 +24,7 @@ const [emailErro,setEmailErro] = useState("")
 const [cidadeBusca,setCidadeBusca]=useState("")
 const [cidadesFiltradas,setCidadesFiltradas]=useState([])
 const [fuse,setFuse]=useState(null)
+const [cidadeErro,setCidadeErro] = useState("")
 
 
 // CONTADOR
@@ -175,6 +176,18 @@ return true
 }
 
 
+//Validar cidade
+const validarCidadeMG = (cidade) => {
+
+if(!cidade) return false
+
+return cidadesMGJSON.some(c =>
+c.nome.toLowerCase() === cidade.toLowerCase()
+)
+
+}
+
+
 
 // TELEFONE
 
@@ -235,6 +248,11 @@ alert("Telefone inválido")
 return
 }
 
+if(!validarCidadeMG(form.cidade)){
+alert("Selecione uma cidade válida de Minas Gerais.")
+return
+}
+
 if(!form.lgpd){
 alert("Você precisa aceitar a política de privacidade.")
 return
@@ -263,7 +281,22 @@ mode:"no-cors",
 body:data
 })
 
-alert("Assinatura registrada!")
+setForm({
+nome:"",
+cpf:"",
+nascimento:"",
+whatsapp:"",
+email:"",
+cidade:"",
+lgpd:false
+})
+
+setCidadeBusca("")
+setCidadesFiltradas([])
+
+if(window.confirm("✅ Assinatura registrada com sucesso!\n\nDeseja compartilhar este abaixo-assinado no WhatsApp?")){
+shareWhatsApp()
+}
 
 }
 
@@ -498,13 +531,36 @@ setForm({
 cidade:value
 })
 
+if(value.length > 2){
+
+const existe = cidadesMGJSON.some(c =>
+c.nome.toLowerCase() === value.toLowerCase()
+)
+
+if(!existe){
+setCidadeErro("Selecione uma cidade válida de Minas Gerais")
+}else{
+setCidadeErro("")
+}
+
+}else{
+setCidadeErro("")
+}
+
 }}
 required
 />
 
+{cidadeErro && (
+<p className="erro-cpf">{cidadeErro}</p>
+)}
+
 {cidadesFiltradas.length > 0 && (
 
-<div className="cidade-sugestoes">
+<div
+className="cidade-sugestoes"
+onClick={(e)=>e.stopPropagation()}
+>
 
 {cidadesFiltradas.map((cidade)=>(
 
@@ -513,13 +569,20 @@ key={cidade.id}
 className="cidade-item"
 onClick={()=>{
 
-setForm({...form,cidade:cidade.nome})
+setForm({
+...form,
+cidade:cidade.nome
+})
+
 setCidadeBusca(cidade.nome)
+setCidadeErro("")
 setCidadesFiltradas([])
 
 }}
 >
+
 {cidade.nome} - MG
+
 </div>
 
 ))}
@@ -529,8 +592,6 @@ setCidadesFiltradas([])
 )}
 
 </div>
-
-
 
 
 
