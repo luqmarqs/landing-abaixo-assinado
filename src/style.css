@@ -1,3 +1,8 @@
+:root{
+--feminist-purple:#c77dff;
+--feminist-purple-dark:#b065f2;
+}
+
 *{
 box-sizing:border-box;
 margin:0;
@@ -42,13 +47,20 @@ margin:auto;
 }
 
 .counter{
-font-size:16px;
+margin-top:0;
+font-size:18px;
 background:#151515;
 padding:10px 20px;
-border-radius:40px;
+border-radius:30px;
 display:flex;
 align-items:center;
-height:52px;
+}
+
+.counter strong{
+color:var(--feminist-purple);
+font-size:20px;
+font-weight:700;
+margin-right:6px;
 }
 
 /* CTA */
@@ -70,6 +82,11 @@ font-weight:600;
 font-size:16px;
 
 transition:.25s;
+}
+
+.cta:hover{
+box-shadow:0 0 20px rgba(199,125,255,0.7);
+transform:scale(1.05);
 }
 
 /* GLOW */
@@ -143,8 +160,13 @@ color:#aaa;
 }
 
 .privacy-link{
+color:var(--feminist-purple);
 text-decoration:underline;
 cursor:pointer;
+}
+
+.privacy-link:hover{
+color:var(--feminist-purple-dark);
 }
 
 button{
@@ -195,7 +217,7 @@ right:16px;
 width:36px;
 height:36px;
 border-radius:50%;
-background:#c77dff;
+background:var(--feminist-purple);
 color:white;
 border:none;
 font-size:18px;
@@ -203,11 +225,11 @@ display:flex;
 align-items:center;
 justify-content:center;
 cursor:pointer;
-transition:0.2s;
+transition:.2s;
 }
 
 .close:hover{
-background:#b065f2;
+background:var(--feminist-purple-dark);
 transform:scale(1.08);
 }
 
@@ -270,9 +292,10 @@ gap:24px;
 .hero-actions{
 display:flex;
 align-items:center;
-gap:16px;
-flex-wrap:wrap;
 justify-content:center;
+gap:18px;
+flex-wrap:wrap;
+margin-top:30px;
 }
 
 .cidade-sugestoes{

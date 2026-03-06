@@ -194,18 +194,23 @@ alert("Você precisa aceitar a política de privacidade.")
 return
 }
 
+
 const formURL =
 "https://docs.google.com/forms/d/e/1FAIpQLScn46xJuZuka4P4UnEQjKhQuz3r1vPCoTa06XtuhbMTkiPhhw/formResponse"
 
 const data = new FormData()
 
-data.append("entry.XXXX1",form.nome)
-data.append("entry.XXXXCPF",form.cpf)
-data.append("entry.XXXX2",form.nascimento)
-data.append("entry.XXXX3",form.whatsapp)
-data.append("entry.XXXX4",form.email)
-data.append("entry.XXXX5",form.cidade)
-data.append("entry.XXXX6","Aceito política de privacidade")
+const [year, month, day] = form.nascimento.split("-")
+
+data.append("entry.841108454",form.nome)
+data.append("entry.1979888784",form.cpf)
+data.append("entry.2078748064_year",year)
+data.append("entry.2078748064_month",month)
+data.append("entry.2078748064_day",day)
+data.append("entry.1963593262",form.whatsapp)
+data.append("entry.1835698599",form.email)
+data.append("entry.1434357970",form.cidade)
+data.append("entry.1477377412","Aceito política de privacidade")
 
 await fetch(formURL,{
 method:"POST",
