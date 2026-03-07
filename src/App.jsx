@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react"
-import InstagramVideo from "./InstagramVideo"
 import Fuse from "fuse.js"
 import cidadesMGJSON from "./data/cidadesMG.json"
 
@@ -332,7 +331,12 @@ return(
 
 <div>
 
-<header className="hero">
+<header
+className="hero"
+style={{
+backgroundImage:"url('/CAPA - bandeirada.png')"
+}}
+>
 
 <div className="container hero-content fade">
 
@@ -365,14 +369,80 @@ Compartilhar no WhatsApp
 </header>
 
 
-
-<section className="video-section">
+<section className="info-section pacto">
 
 <div className="container">
 
-<h2>Por que essa mobilização é urgente?</h2>
+<div className="info-grid">
 
-<InstagramVideo/>
+<img src="/punho.png" className="info-icon"/>
+
+<div>
+
+<h2>O que é o Pacto Nacional de Enfrentamento ao Feminicídio?</h2>
+
+<p>
+O Pacto Nacional de Enfrentamento ao Feminicídio é uma iniciativa do governo federal
+que reúne estados e municípios para fortalecer políticas públicas de prevenção,
+proteção e responsabilização nos casos de violência contra mulheres.
+</p>
+
+<p>
+O pacto prevê ações integradas entre segurança pública, justiça, assistência social
+e políticas para mulheres, garantindo atendimento mais rápido às vítimas,
+proteção às mulheres em risco e responsabilização dos agressores.
+</p>
+
+<p>
+Ao aderir ao pacto, os estados assumem compromissos concretos para ampliar
+a rede de proteção, melhorar o atendimento às vítimas e implementar políticas
+de prevenção à violência de gênero.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<section className="info-section minas">
+
+<div className="container">
+
+<div className="info-grid">
+
+<div>
+
+<h2>Qual é a situação de Minas Gerais?</h2>
+
+<p>
+Minas Gerais está entre os estados com maior número absoluto de feminicídios
+no Brasil. Todos os anos, dezenas de mulheres são assassinadas por razões
+de gênero, muitas vezes após ciclos prolongados de violência doméstica.
+</p>
+
+<p>
+Apesar da gravidade do problema, Minas Gerais ainda não aderiu formalmente
+ao Pacto Nacional de Enfrentamento ao Feminicídio, o que limita a integração
+com políticas federais e o acesso a recursos e programas específicos de
+proteção às mulheres.
+</p>
+
+<p>
+A adesão ao pacto pode fortalecer a rede de enfrentamento à violência,
+ampliar políticas de prevenção e salvar vidas. Este abaixo-assinado
+cobra do governo estadual um compromisso concreto com a proteção das mulheres mineiras.
+</p>
+
+</div>
+
+<img src="/calado.png" className="info-icon"/>
+
+</div>
 
 </div>
 
