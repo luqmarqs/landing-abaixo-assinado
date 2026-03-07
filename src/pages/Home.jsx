@@ -354,9 +354,11 @@ Pressione para que o governo estadual assine o
 
 <div className="hero-actions">
 
+{/* 
 <p className="counter">
 <strong>{`${assinaturas} pessoas já assinaram`}</strong>
 </p>
+*/}
 
 <a
 href="#assinar"
