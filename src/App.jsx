@@ -334,7 +334,7 @@ return(
 <header
 className="hero"
 style={{
-backgroundImage:"url('/CAPA - bandeirada.png')"
+backgroundImage:"url('/CAPA - bandeirada.webp')"
 }}
 >
 
@@ -375,7 +375,7 @@ Compartilhar no WhatsApp
 
 <div className="info-grid">
 
-<img src="/punho.png" className="info-icon"/>
+<img src="/punho.webp" className="info-icon"/>
 
 <div>
 
@@ -440,7 +440,7 @@ cobra do governo estadual um compromisso concreto com a proteção das mulheres 
 
 </div>
 
-<img src="/calado.png" className="info-icon"/>
+<img src="/calado.webp" className="info-icon"/>
 
 </div>
 
