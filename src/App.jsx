@@ -315,7 +315,7 @@ shareWhatsApp()
 
 const shareWhatsApp = () => {
 
-const url = encodeURIComponent("https://seusite.com")
+const url = encodeURIComponent("https://minascontraofeminicidio.org/")
 
 const text = encodeURIComponent("Assine este abaixo-assinado contra o feminicídio em Minas Gerais.")
 
@@ -727,8 +727,34 @@ Compartilhar no WhatsApp
 <h2>Política de Privacidade</h2>
 
 <p>
-Este abaixo-assinado é uma iniciativa do
-<strong> Gabinete da Vereadora Iza Lourença — Câmara Municipal de Belo Horizonte.</strong>
+Este abaixo-assinado é uma iniciativa do <strong>mandato da Vereadora Iza Lourença,
+da Câmara Municipal de Belo Horizonte</strong>, voltada à mobilização da sociedade
+civil pela adesão do Estado de Minas Gerais ao
+<strong> Pacto Nacional de Enfrentamento ao Feminicídio</strong>.
+</p>
+
+<p>
+Os dados coletados neste formulário — como nome, CPF, data de nascimento,
+cidade, telefone e e-mail — têm como única finalidade validar e contabilizar
+as assinaturas do abaixo-assinado e demonstrar apoio público à iniciativa.
+</p>
+
+<p>
+As informações fornecidas não serão comercializadas nem compartilhadas
+com terceiros para fins comerciais. O tratamento dos dados ocorre de acordo
+com os princípios da <strong>Lei Geral de Proteção de Dados (Lei nº 13.709/2018)</strong>.
+</p>
+
+<p>
+O mandato da Vereadora Iza Lourença é o responsável institucional pela
+iniciativa e pelo tratamento dos dados coletados nesta página, comprometendo-se
+a utilizá-los exclusivamente para fins relacionados à mobilização e
+encaminhamento institucional do abaixo-assinado.
+</p>
+
+<p>
+Ao prosseguir com a assinatura, você declara estar ciente e de acordo com
+o uso dessas informações para os fins descritos acima.
 </p>
 
 </div>
