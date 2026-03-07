@@ -8,10 +8,10 @@ return(
 
 <header class="page-header">
 
-<h1>Pacto Nacional de Enfrentamento ao Feminicídio</h1>
+<h1>Pacto Nacional de Prevenção aos Feminicídios</h1>
 
 <p class="lead">
-O Pacto Nacional de Enfrentamento ao Feminicídio é uma política pública criada
+O Pacto Nacional de Prevenção aos Feminicídios é uma política pública criada
 para fortalecer a prevenção, a investigação e a resposta institucional aos
 casos de feminicídio no Brasil. A iniciativa busca articular ações entre União,
 estados, municípios e diferentes instituições públicas para reduzir a violência
@@ -23,7 +23,7 @@ letal contra mulheres e ampliar a proteção às vítimas de violência de gêne
 
 <article>
 
-<h2>O que é o Pacto Nacional de Enfrentamento ao Feminicídio</h2>
+<h2>O que é o Pacto Nacional de Prevenção aos Feminicídios</h2>
 
 <p>
 O pacto é uma estratégia nacional voltada ao enfrentamento da violência
@@ -115,7 +115,7 @@ de proteção às vítimas.
 <h2>O que o pacto propõe</h2>
 
 <p>
-O Pacto Nacional de Enfrentamento ao Feminicídio estabelece diretrizes
+O Pacto Nacional de Prevenção aos Feminicídios estabelece diretrizes
 e ações para reduzir a violência contra mulheres e prevenir feminicídios.
 Entre seus principais eixos estão:
 </p>
@@ -168,7 +168,7 @@ os resultados das ações implementadas.
 <h2>Por que a adesão ao pacto é importante</h2>
 
 <p>
-A adesão ao Pacto Nacional de Enfrentamento ao Feminicídio representa
+A adesão ao Pacto Nacional de Prevenção aos Feminicídios representa
 um compromisso institucional com a proteção das mulheres e com o
 enfrentamento da violência de gênero.
 </p>

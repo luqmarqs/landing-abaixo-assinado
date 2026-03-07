@@ -185,18 +185,34 @@ flex-direction:column;
 gap:18px;
 }
 
-input{
-background:#0f0f0f;
-
-border:1px solid #2a2a2a;
-
+input:not([type="checkbox"]),
+select{
+background:#161616;
+border:none;
 padding:16px;
-
 border-radius:12px;
+color:white;
+width:100%;
+font-size:16px;
+font-family:"Inter", system-ui, -apple-system, sans-serif;
 
-color:#ffffff;
+appearance:none;
+-webkit-appearance:none;
+-moz-appearance:none;
+}
 
-font-size:15px;
+input::placeholder{
+color:#9a9a9a;
+}
+
+select{
+cursor:pointer;
+}
+
+select:focus,
+input:focus{
+outline:none;
+box-shadow:0 0 0 2px #c77dff;
 }
 
 input[type="date"]{
@@ -211,10 +227,6 @@ color:#ffffff;
 width:100%;
 }
 
-input::placeholder{
-color:#9f9f9f;
-opacity:1;
-}
 
 .lgpd{
 display:flex;
@@ -282,35 +294,46 @@ justify-content:center;
 z-index:999;
 }
 
+.modal-overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.85);
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+z-index:999;
+padding:20px;
+}
+
 .modal{
 background:#111;
-padding:40px;
+padding:32px;
 border-radius:16px;
-
-max-width:640px;
-width:90%;
-
+max-width:650px;
+width:100%;
 position:relative;
 
-color:#e6e6e6;
+max-height:90vh;
+overflow-y:auto;
 
-line-height:1.6;
+color:#e6e6e6;   /* COR DO TEXTO */
 }
 
 .modal h2{
-color:white;
-margin-bottom:16px;
-font-size:28px;
+margin-bottom:20px;
 }
 
 .modal p{
-margin-bottom:14px;
-color:#cfcfcf;
+margin-bottom:16px;
+line-height:1.6;
 }
 
-.modal strong{
-color:white;
-}
+/* BOTÃO FECHAR */
 
 .close{
 position:absolute;
@@ -321,12 +344,10 @@ width:36px;
 height:36px;
 
 border-radius:50%;
-
 background:var(--feminist-purple);
 color:white;
 
 border:none;
-
 font-size:18px;
 
 display:flex;
@@ -334,7 +355,6 @@ align-items:center;
 justify-content:center;
 
 cursor:pointer;
-
 transition:.2s;
 }
 
@@ -342,7 +362,6 @@ transition:.2s;
 background:var(--feminist-purple-dark);
 transform:scale(1.08);
 }
-
 .footer{
 
 margin-top:120px;
@@ -422,21 +441,29 @@ flex-wrap:nowrap;
 }
 
 .cidade-sugestoes{
-background:#161616;
+position:absolute;
+top:100%;
+left:0;
+width:100%;
+background:#111;
 border-radius:10px;
-margin-top:6px;
 max-height:200px;
 overflow-y:auto;
+margin-top:6px;
+box-shadow:0 10px 30px rgba(0,0,0,0.6);
+z-index:10;
 }
 
 .cidade-item{
 padding:12px;
 cursor:pointer;
-border-bottom:1px solid #222;
+border-bottom:1px solid rgba(255,255,255,0.08);
+color:#fff;           /* ← COR DO TEXTO */
+font-size:16px;
 }
 
 .cidade-item:hover{
-background:#222;
+background:#1c1c1c;
 }
 
 .date-field{
@@ -662,6 +689,26 @@ margin-bottom:16px;
 font-size:28px;
 }
 
+select{
+background:#161616;
+border:none;
+padding:16px;
+border-radius:12px;
+color:white;
+width:100%;
+font-size:16px;
+appearance:none;
+-webkit-appearance:none;
+-moz-appearance:none;
+}
+
+select:focus{
+outline:none;
+box-shadow:0 0 0 2px #c77dff;
+}
+
+
+
 @media (max-width: 768px){
 
 body{
@@ -683,6 +730,26 @@ background-image:url("/#CAPA alternativa - bandeirada com punho.png");
 .hero-actions{
 flex-direction:column;
 gap:14px;
+}
+
+}
+
+@media(max-width:768px){
+
+.modal-overlay{
+align-items:flex-start;
+padding:16px;
+}
+
+.modal{
+padding:24px;
+border-radius:12px;
+max-height:85vh;
+}
+
+.close{
+top:12px;
+right:12px;
 }
 
 }

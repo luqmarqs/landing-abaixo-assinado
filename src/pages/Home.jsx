@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import Fuse from "fuse.js"
 import cidadesMGJSON from "../data/cidadesMG.json"
+import cidadesBR from "../data/cidadesBR.json"
 import { track } from "@vercel/analytics"
 
 function Home(){
@@ -25,6 +26,8 @@ const [cidadeBusca,setCidadeBusca]=useState("")
 const [cidadesFiltradas,setCidadesFiltradas]=useState([])
 const [fuse,setFuse]=useState(null)
 const [cidadeErro,setCidadeErro] = useState("")
+const [ufs,setUfs] = useState([])
+const [cidades,setCidades] = useState([])
 
 
 useEffect(()=>{
@@ -53,12 +56,41 @@ carregarAssinaturas()
 
 },[])
 
-
-// CARREGAR CIDADES
+//CARREGAR UF
 
 useEffect(()=>{
 
-const fuseInstance = new Fuse(cidadesMGJSON,{
+fetch("https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome")
+.then(res => res.json())
+.then(data => setUfs(data))
+
+},[])
+
+useEffect(()=>{
+
+setCidadeBusca("")
+setForm({...form, cidade:""})
+
+},[form.uf])
+
+
+// CARREGAR CIDADES DA UF
+
+useEffect(()=>{
+
+if(!form.uf){
+setCidades([])
+setFuse(null)
+return
+}
+
+const cidadesFiltradasUF = cidadesBR.filter(
+cidade => cidade.uf === form.uf
+)
+
+setCidades(cidadesFiltradasUF)
+
+const fuseInstance = new Fuse(cidadesFiltradasUF,{
 keys:["nome"],
 threshold:0.3,
 ignoreLocation:true
@@ -66,7 +98,7 @@ ignoreLocation:true
 
 setFuse(fuseInstance)
 
-},[])
+},[form.uf])
 
 
 // BUSCA
@@ -86,26 +118,6 @@ const resultado = fuse
 setCidadesFiltradas(resultado)
 
 },[cidadeBusca,fuse])
-
-
-
-useEffect(()=>{
-
-const fecharSugestoes = (e) => {
-
-if(!e.target.closest(".cidade-field")){
-setCidadesFiltradas([])
-}
-
-}
-
-document.addEventListener("click",fecharSugestoes)
-
-return () => {
-document.removeEventListener("click",fecharSugestoes)
-}
-
-},[])
 
 
 // MASCARA TELEFONE
@@ -259,7 +271,7 @@ return
 }
 
 if(!validarCidadeMG(form.cidade)){
-alert("Selecione uma cidade válida de Minas Gerais.")
+alert("Selecione uma cidade válida.")
 return
 }
 
@@ -321,7 +333,7 @@ const shareWhatsApp = () => {
 track("share_whatsapp")
 
 const url = encodeURIComponent("https://minascontraofeminicidio.org/")
-const text = encodeURIComponent("Assine este abaixo-assinado contra o feminicídio em Minas Gerais.")
+const text = encodeURIComponent("Pressione o governo de Minas Gerais a assinar o Pacto Nacional de prevenção ao feminicídio")
 
 window.open(`https://wa.me/?text=${text}%20${url}`,"_blank")
 
@@ -344,12 +356,14 @@ backgroundImage:"url('/CAPA - bandeirada.webp')"
 
 <div className="container hero-content fade">
 
-<h1>Minas precisa agir contra o feminicídio</h1>
+<h1>MINAS CONTRA O FEMINICÍDIO</h1>
 
 <p className="subtitle">
-Minas Gerais é o segundo estado com mais feminicídios no Brasil.
+Minas Gerais é o segundo estado com mais feminicídios no país. A cada dois dias, uma mulher é morta apenas por ser mulher. 
+Ainda assim, o governo estadual ainda não assinou o Pacto Nacional de Prevenção aos Feminicídios, lançado em 2023. 
+Pressione para mudar essa realidade, as mulheres mineiras não podem continuar vivendo em um estado sem política efetiva de proteção.
 Pressione para que o governo estadual assine o
-<strong> Pacto Nacional de Enfrentamento ao Feminicídio.</strong>
+<strong>{" "}Pacto Nacional de Prevenção aos Feminicídios</strong>
 </p>
 
 <div className="hero-actions">
@@ -389,25 +403,27 @@ Compartilhar no WhatsApp
 
 <div>
 
-<h2>O que é o Pacto Nacional de Enfrentamento ao Feminicídio?</h2>
+<section class="content-page">
+
+<div class="container">
+
+<h2>O que é o Pacto Nacional de Prevenção aos Feminicídios</h2>
 
 <p>
-O Pacto Nacional de Enfrentamento ao Feminicídio é uma iniciativa do governo federal
-que reúne estados e municípios para fortalecer políticas públicas de prevenção,
-proteção e responsabilização nos casos de violência contra mulheres.
+O <strong>Pacto Nacional de Prevenção aos Feminicídios</strong> é uma iniciativa do governo federal que reúne os três poderes federais, estados e municípios para fortalecer políticas públicas de prevenção, proteção e responsabilização nos casos de violência contra mulheres.
 </p>
 
 <p>
-O pacto prevê ações integradas entre segurança pública, justiça, assistência social
-e políticas para mulheres, garantindo atendimento mais rápido às vítimas,
-proteção às mulheres em risco e responsabilização dos agressores.
+O pacto prevê ações integradas entre segurança pública, justiça, assistência social e políticas para mulheres, garantindo atendimento mais rápido às vítimas, proteção às mulheres em risco e responsabilização dos agressores.
 </p>
 
 <p>
-Ao aderir ao pacto, os estados assumem compromissos concretos para ampliar
-a rede de proteção, melhorar o atendimento às vítimas e implementar políticas
-de prevenção à violência de gênero.
+Ao aderir ao pacto, os estados assumem compromissos concretos para ampliar a rede de proteção, melhorar o atendimento às vítimas e implementar políticas de prevenção à violência de gênero.
 </p>
+
+</div>
+
+</section>
 
 </div>
 
@@ -427,25 +443,18 @@ de prevenção à violência de gênero.
 
 <div>
 
-<h2>Qual é a situação de Minas Gerais?</h2>
+<h2>Qual é a situação das mulheres em Minas Gerais?</h2>
 
 <p>
-Minas Gerais está entre os estados com maior número absoluto de feminicídios
-no Brasil. Todos os anos, dezenas de mulheres são assassinadas por razões
-de gênero, muitas vezes após ciclos prolongados de violência doméstica.
+Minas Gerais é o segundo estado com mais feminicídios do Brasil, com números crescentes ao longo dos últimos anos. Mulheres são assassinadas por opressão de gênero, muitas vezes após ciclos prolongados de violência doméstica, ameaças e agressões.
 </p>
 
 <p>
-Apesar da gravidade do problema, Minas Gerais ainda não aderiu formalmente
-ao Pacto Nacional de Enfrentamento ao Feminicídio, o que limita a integração
-com políticas federais e o acesso a recursos e programas específicos de
-proteção às mulheres.
+Apesar da gravidade do problema, o governo de Minas Gerais ainda não implementou políticas realmente efetivas capazes de mudar essa realidade. O estado também não aderiu formalmente ao <strong>Pacto Nacional de Prevenção aos Feminicídios</strong>, o que limita a integração com políticas federais e o acesso a recursos e programas específicos de proteção às mulheres.
 </p>
 
 <p>
-A adesão ao pacto pode fortalecer a rede de enfrentamento à violência,
-ampliar políticas de prevenção e salvar vidas. Este abaixo-assinado
-cobra do governo estadual um compromisso concreto com a proteção das mulheres mineiras.
+A adesão ao pacto pode fortalecer a rede de enfrentamento à violência, ampliar políticas de prevenção e contribuir para salvar vidas. Este abaixo-assinado cobra do governador <strong>Romeu Zema</strong> um compromisso concreto com a proteção das mulheres mineiras.
 </p>
 
 </div>
@@ -604,12 +613,27 @@ required
 {emailErro && <p className="erro-cpf">{emailErro}</p>}
 
 
+<select
+value={form.uf}
+onChange={(e)=>setForm({...form,uf:e.target.value})}
+required
+>
+
+<option value="">Estado</option>
+
+{ufs.map((uf)=>(
+<option key={uf.id} value={uf.sigla}>
+{uf.nome}
+</option>
+))}
+
+</select>
 
 
 <div className="cidade-field">
 
 <input
-placeholder="Cidade (MG)"
+placeholder="Cidade"
 value={cidadeBusca}
 autoComplete="off"
 onClick={(e)=>e.stopPropagation()}
@@ -674,7 +698,7 @@ setCidadesFiltradas([])
 }}
 >
 
-{cidade.nome} - MG
+{cidade.nome}
 
 </div>
 
@@ -740,7 +764,7 @@ Compartilhar no WhatsApp
 Este abaixo-assinado é uma iniciativa do <strong>mandato da Vereadora Iza Lourença,
 da Câmara Municipal de Belo Horizonte</strong>, voltada à mobilização da sociedade
 civil pela adesão do Estado de Minas Gerais ao
-<strong> Pacto Nacional de Enfrentamento ao Feminicídio</strong>.
+<strong> Pacto Nacional de Prevenção aos Feminicídios</strong>.
 </p>
 
 <p>
