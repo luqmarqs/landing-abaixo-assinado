@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import Fuse from "fuse.js"
 import cidadesMGJSON from "../data/cidadesMG.json"
+import { track } from "@vercel/analytics"
 
 function Home(){
 
@@ -290,6 +291,8 @@ mode:"no-cors",
 body:data
 })
 
+track("assinatura_enviada")
+
 setForm({
 nome:"",
 cpf:"",
@@ -315,8 +318,9 @@ shareWhatsApp()
 
 const shareWhatsApp = () => {
 
-const url = encodeURIComponent("https://minascontraofeminicidio.org/")
+track("share_whatsapp")
 
+const url = encodeURIComponent("https://minascontraofeminicidio.org/")
 const text = encodeURIComponent("Assine este abaixo-assinado contra o feminicídio em Minas Gerais.")
 
 window.open(`https://wa.me/?text=${text}%20${url}`,"_blank")
@@ -354,8 +358,12 @@ Pressione para que o governo estadual assine o
 <strong>{`${assinaturas} pessoas já assinaram`}</strong>
 </p>
 
-<a href="#assinar" className="cta glow">
-Assinar abaixo-assinado
+<a
+href="#assinar"
+className="cta glow"
+onClick={() => track("click_assinar")}
+>
+Assine já!
 </a>
 
 <button className="cta whatsapp glow" onClick={shareWhatsApp}>
