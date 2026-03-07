@@ -199,6 +199,18 @@ color:#ffffff;
 font-size:15px;
 }
 
+input[type="date"]{
+appearance:auto;
+-webkit-appearance:auto;
+
+padding:14px 16px;
+
+background:#0f0f0f;
+color:#ffffff;
+
+width:100%;
+}
+
 input::placeholder{
 color:#9f9f9f;
 opacity:1;
