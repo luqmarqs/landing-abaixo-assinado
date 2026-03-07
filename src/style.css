@@ -571,3 +571,108 @@ gap:14px;
 }
 
 }
+
+.site-header{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+background:#0b0b0b;
+z-index:1000;
+border-bottom:1px solid #222;
+}
+
+.header-container{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:14px 20px;
+max-width:1100px;
+margin:auto;
+}
+
+.logo{
+color:white;
+font-weight:700;
+font-size:16px;
+}
+
+.menu-button{
+background:none;
+border:none;
+color:white;
+font-size:26px;
+cursor:pointer;
+}
+
+.mobile-menu{
+display:flex;
+flex-direction:column;
+gap:18px;
+padding:20px;
+background:#111;
+}
+
+.mobile-menu a{
+color:white;
+text-decoration:none;
+font-size:18px;
+}
+
+main{
+padding-top:80px;
+}
+
+.home main{
+padding-top:0;
+}
+
+body{
+padding-top:80px;
+}
+
+.logo{
+display:flex;
+align-items:center;
+gap:12px;
+text-decoration:none;
+}
+
+.logo-text{
+color:white;
+font-weight:800;
+font-size:20px;
+letter-spacing:0.3px;
+}
+
+.logo-icon{
+width:28px;
+height:28px;
+object-fit:contain;
+}
+
+.hero{
+margin-top:-80px;
+padding-top:160px;
+}
+
+.content-page p{
+margin-bottom:18px;
+line-height:1.7;
+}
+
+.content-page ul{
+margin:20px 0 24px 24px;
+padding-left:20px;
+}
+
+.content-page li{
+margin-bottom:8px;
+line-height:1.6;
+}
+
+.content-page h2{
+margin-top:40px;
+margin-bottom:16px;
+font-size:28px;
+}
