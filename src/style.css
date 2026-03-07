@@ -555,22 +555,7 @@ order:-1;
 
 }
 
-@media(max-width:768px){
 
-.hero{
-background-image:url("/#CAPA alternativa - bandeirada com punho.png");
-}
-
-}
-
-@media(max-width:768px){
-
-.hero-actions{
-flex-direction:column;
-gap:14px;
-}
-
-}
 
 .site-header{
 position:fixed;
@@ -675,4 +660,29 @@ line-height:1.6;
 margin-top:40px;
 margin-bottom:16px;
 font-size:28px;
+}
+
+@media (max-width: 768px){
+
+body{
+background-attachment: scroll;
+}
+
+}
+
+@media(max-width:768px){
+
+.hero{
+background-image:url("/#CAPA alternativa - bandeirada com punho.png");
+}
+
+}
+
+@media(max-width:768px){
+
+.hero-actions{
+flex-direction:column;
+gap:14px;
+}
+
 }
