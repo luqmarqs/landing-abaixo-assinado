@@ -388,7 +388,7 @@ backgroundImage:"url('/CAPA - bandeirada.webp')"
 <h1>MINAS CONTRA O FEMINICÍDIO</h1>
 
 <p className="subtitle">
-Minas é o segundo estado com mais feminicídios no país. <br/>
+Minas Gerais é o segundo estado com mais feminicídios no país. <br/>
 Mesmo assim, o governo estadual ainda não assinou o <strong>Pacto Nacional de Prevenção aos Feminicídios.</strong><br/>
 Pressione agora para que MG integre essa rede. 
 </p>
