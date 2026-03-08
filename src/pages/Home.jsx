@@ -3,6 +3,7 @@ import Fuse from "fuse.js"
 import cidadesMGJSON from "../data/cidadesMG.json"
 import cidadesBR from "../data/cidadesBR.json"
 import { track } from "@vercel/analytics"
+import ModalPortal from "../components/ModalPortal"
 
 function Home(){
 
@@ -796,11 +797,24 @@ Compartilhar no WhatsApp
 
 {showPrivacy && (
 
-<div className="modal-overlay" onClick={()=>setShowPrivacy(false)}>
+<ModalPortal>
 
-<div className="modal" onClick={(e)=>e.stopPropagation()}>
+<div
+className="modal-overlay"
+onClick={()=>setShowPrivacy(false)}
+>
 
-<button className="close" onClick={()=>setShowPrivacy(false)}>✕</button>
+<div
+className="modal"
+onClick={(e)=>e.stopPropagation()}
+>
+
+<button
+className="close"
+onClick={()=>setShowPrivacy(false)}
+>
+✕
+</button>
 
 <h2>Política de Privacidade</h2>
 
@@ -808,7 +822,7 @@ Compartilhar no WhatsApp
 Este abaixo-assinado é uma iniciativa do <strong>mandato da Vereadora Iza Lourença,
 da Câmara Municipal de Belo Horizonte</strong>, voltada à mobilização da sociedade
 civil pela adesão do Estado de Minas Gerais ao
-<strong> Pacto Nacional de Prevenção aos Feminicídios</strong>.
+<strong> Pacto Nacional de Enfrentamento ao Feminicídio</strong>.
 </p>
 
 <p>
@@ -838,6 +852,8 @@ o uso dessas informações para os fins descritos acima.
 </div>
 
 </div>
+
+</ModalPortal>
 
 )}
 
