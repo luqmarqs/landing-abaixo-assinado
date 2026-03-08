@@ -29,6 +29,12 @@ const [cidadeErro,setCidadeErro] = useState("")
 const [ufs,setUfs] = useState([])
 const [cidades,setCidades] = useState([])
 
+const normalizar = (texto) =>
+texto
+.normalize("NFD")
+.replace(/[\u0300-\u036f]/g,"")
+.toLowerCase()
+
 
 useEffect(()=>{
 
@@ -90,8 +96,15 @@ cidade => cidade.uf === form.uf
 
 setCidades(cidadesFiltradasUF)
 
-const fuseInstance = new Fuse(cidadesFiltradasUF,{
-keys:["nome"],
+/* normalizar cidades para busca sem acento */
+
+const cidadesNormalizadas = cidadesFiltradasUF.map(c => ({
+...c,
+nomeBusca: normalizar(c.nome)
+}))
+
+const fuseInstance = new Fuse(cidadesNormalizadas,{
+keys:["nomeBusca"],
 threshold:0.3,
 ignoreLocation:true
 })
@@ -110,16 +123,18 @@ setCidadesFiltradas([])
 return
 }
 
+const termo = normalizar(cidadeBusca)
+
 const resultado = fuse
-.search(cidadeBusca)
+.search(termo)
 .slice(0,6)
 .map(r => r.item)
 
-/* se só existe uma cidade e ela é exatamente a digitada, não mostrar lista */
+/* evita duplicar quando cidade já selecionada */
 
 if(
 resultado.length === 1 &&
-resultado[0].nome.toLowerCase() === cidadeBusca.toLowerCase()
+normalizar(resultado[0].nome) === termo
 ){
 setCidadesFiltradas([])
 return
