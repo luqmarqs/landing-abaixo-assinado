@@ -387,11 +387,9 @@ backgroundImage:"url('/CAPA - bandeirada.webp')"
 <h1>MINAS CONTRA O FEMINICÍDIO</h1>
 
 <p className="subtitle">
-Minas Gerais é o segundo estado com mais feminicídios no país. A cada dois dias, uma mulher é morta apenas por ser mulher. 
-Ainda assim, o governo estadual ainda não assinou o Pacto Nacional de Prevenção aos Feminicídios, lançado em 2023. 
-Pressione para mudar essa realidade, as mulheres mineiras não podem continuar vivendo em um estado sem política efetiva de proteção.
-Pressione para que o governo estadual assine o
-<strong>{" "}Pacto Nacional de Prevenção aos Feminicídios</strong>
+Minas é o segundo estado com mais feminicídios no país. <br/>
+Mesmo assim, o governo estadual ainda não assinou o <strong>Pacto Nacional de Prevenção aos Feminicídios.</strong><br/>
+Pressione agora para que MG integre essa rede. 
 </p>
 
 <div className="hero-actions">
@@ -503,7 +501,7 @@ A adesão ao pacto pode fortalecer a rede de enfrentamento à violência, amplia
 
 <div className="form-card">
 
-<h2>Junte-se ao abaixo-assinado</h2>
+<h2>Junte-se a esse movimento</h2>
 
 <form onSubmit={handleSubmit}>
 
@@ -778,7 +776,7 @@ política de privacidade
 
 
 <button type="submit" className="glow">
-Assinar abaixo-assinado
+Assine
 </button>
 
 <button type="button" className="whatsapp-share glow" onClick={shareWhatsApp}>
