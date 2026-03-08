@@ -6,6 +6,7 @@ import Feminicidio from "./pages/Feminicidio"
 import Pacto from "./pages/Pacto"
 import Denuncia from "./pages/Denuncie"
 import ScrollToTop from "./components/ScrollToTop"
+import AnalyticsTracker from "./components/AnalyticsTracker"
 
 function App(){
 
@@ -14,6 +15,8 @@ return(
 <BrowserRouter>
 
 <ScrollToTop/>
+
+<AnalyticsTracker/>
 
 <Header/>
 

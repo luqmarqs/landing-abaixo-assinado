@@ -332,7 +332,15 @@ mode:"no-cors",
 body:data
 })
 
-track("assinatura_enviada")
+if(window.gtag){
+
+window.gtag('event','assinatura_enviada',{
+event_category:'abaixo_assinado',
+event_label:'formulario'
+})
+
+}
+
 
 setForm({
 nome:"",
@@ -359,10 +367,22 @@ shareWhatsApp()
 
 const shareWhatsApp = () => {
 
-track("share_whatsapp")
+/* evento Google Analytics */
+
+if(window.gtag){
+
+window.gtag('event','share_whatsapp',{
+event_category:'compartilhamento',
+event_label:'botao_whatsapp'
+})
+
+}
 
 const url = encodeURIComponent("https://minascontraofeminicidio.org/")
-const text = encodeURIComponent("Pressione o governo de Minas Gerais a assinar o Pacto Nacional de prevenção ao feminicídio")
+
+const text = encodeURIComponent(
+"Pressione o governo de Minas Gerais a assinar o Pacto Nacional de Enfrentamento ao Feminicídio."
+)
 
 window.open(`https://wa.me/?text=${text}%20${url}`,"_blank")
 
