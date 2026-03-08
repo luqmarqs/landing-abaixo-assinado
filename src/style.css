@@ -304,14 +304,16 @@ display:flex;
 align-items:center;
 justify-content:center;
 
-padding:20px;   /* evita colar nas bordas no mobile */
+padding:20px;
 
-z-index:999;
+z-index:9999;   /* maior que qualquer header */
 }
 
 
-
 .modal{
+position:relative;
+z-index:10000;
+
 background:#161616;
 padding:32px;
 border-radius:16px;
@@ -319,10 +321,8 @@ border-radius:16px;
 max-width:650px;
 width:90%;
 
-max-height:90vh;   /* evita cortar no celular */
-overflow-y:auto;   /* ativa scroll interno */
-
-position:relative;
+max-height:90vh;
+overflow-y:auto;
 
 color:#e6e6e6;
 }
@@ -342,6 +342,8 @@ line-height:1.6;
 position:absolute;
 top:12px;
 right:12px;
+
+z-index:10001; /* garante que fique acima do texto */
 
 width:36px;
 height:36px;
