@@ -449,6 +449,29 @@ color:white;
 
 }
 
+.footer-instagram{
+display:inline-flex;
+align-items:center;
+gap:8px;
+
+margin:14px 0;
+
+color:#c77dff;
+text-decoration:none;
+font-weight:500;
+
+transition:opacity 0.2s;
+}
+
+.footer-instagram:hover{
+opacity:0.8;
+}
+
+.footer-instagram svg{
+width:18px;
+height:18px;
+}
+
 .whatsapp-share{
 background:#25D366;
 color:white;
