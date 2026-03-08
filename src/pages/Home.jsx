@@ -94,16 +94,16 @@ const cidadesFiltradasUF = cidadesBR.filter(
 cidade => cidade.uf === form.uf
 )
 
-setCidades(cidadesFiltradasUF)
+/* cria campo normalizado */
 
-/* normalizar cidades para busca sem acento */
-
-const cidadesNormalizadas = cidadesFiltradasUF.map(c => ({
+const cidadesPreparadas = cidadesFiltradasUF.map(c => ({
 ...c,
 nomeBusca: normalizar(c.nome)
 }))
 
-const fuseInstance = new Fuse(cidadesNormalizadas,{
+setCidades(cidadesPreparadas)
+
+const fuseInstance = new Fuse(cidadesPreparadas,{
 keys:["nomeBusca"],
 threshold:0.3,
 ignoreLocation:true
@@ -130,7 +130,7 @@ const resultado = fuse
 .slice(0,6)
 .map(r => r.item)
 
-/* evita duplicar quando cidade já selecionada */
+/* se já selecionado não mostrar lista */
 
 if(
 resultado.length === 1 &&
@@ -224,12 +224,14 @@ return true
 
 
 //Validar cidade
-const validarCidadeMG = (cidade) => {
+const validarCidade = (cidade) => {
 
 if(!cidade) return false
 
-return cidadesMGJSON.some(c =>
-c.nome.toLowerCase() === cidade.toLowerCase()
+const termo = normalizar(cidade)
+
+return cidades.some(c =>
+normalizar(c.nome) === termo
 )
 
 }
@@ -295,7 +297,7 @@ alert("Telefone inválido")
 return
 }
 
-if(!validarCidadeMG(form.cidade)){
+if(!validarCidade(form.cidade)){
 alert("Selecione uma cidade válida.")
 return
 }
@@ -661,7 +663,10 @@ required
 placeholder="Cidade"
 value={cidadeBusca}
 autoComplete="off"
+
 onClick={(e)=>e.stopPropagation()}
+
+onBlur={()=>setTimeout(()=>setCidadesFiltradas([]),150)}
 
 onChange={(e)=>{
 
@@ -677,14 +682,14 @@ cidade:value
 if(value.length > 2){
 
 const existe = cidades.some(c =>
-c.nome.toLowerCase() === value.toLowerCase()
+normalizar(c.nome) === normalizar(value)
 )
 
 if(!existe){
 setCidadeErro("Selecione uma cidade válida")
 }else{
 setCidadeErro("")
-setCidadesFiltradas([]) // fecha sugestões se cidade válida
+setCidadesFiltradas([])
 }
 
 }else{
@@ -695,7 +700,7 @@ setCidadeErro("")
 
 onKeyDown={(e)=>{
 if(e.key === "Enter"){
-setCidadesFiltradas([]) // fecha sugestões ao pressionar Enter
+setCidadesFiltradas([])
 }
 }}
 
@@ -716,10 +721,12 @@ onClick={(e)=>e.stopPropagation()}
 {cidadesFiltradas.map((cidade,index)=>(
 
 <div
-key={cidade.id || index}
+key={cidade.id || cidade.nome || index}
 className="cidade-item"
 
-onClick={()=>{
+onMouseDown={()=>{
+
+/* usa onMouseDown para evitar bug de blur */
 
 setForm({
 ...form,
@@ -727,8 +734,10 @@ cidade:cidade.nome
 })
 
 setCidadeBusca(cidade.nome)
+
 setCidadeErro("")
-setCidadesFiltradas([]) // fecha lista
+
+setCidadesFiltradas([])
 
 }}
 >
