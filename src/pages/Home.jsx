@@ -286,12 +286,12 @@ const handleSubmit = async (e) => {
 
 e.preventDefault()
 
-const cpfNumeros = form.cpf.replace(/\D/g,"")
+//const cpfNumeros = form.cpf.replace(/\D/g,"")
 
-if(cpfNumeros.length !== 11 || !validarCPF(form.cpf)){
+/*if(cpfNumeros.length !== 11 || !validarCPF(form.cpf)){
 alert("CPF inválido")
 return
-}
+}*/
 
 if(!validarTelefoneBR(form.whatsapp)){
 alert("Telefone inválido")
@@ -316,7 +316,7 @@ const data = new FormData()
 const [year,month,day] = form.nascimento.split("-")
 
 data.append("entry.841108454",form.nome)
-data.append("entry.1979888784",form.cpf)
+//data.append("entry.1979888784",form.cpf)
 data.append("entry.2078748064_year",year)
 data.append("entry.2078748064_month",month)
 data.append("entry.2078748064_day",day)
@@ -518,7 +518,7 @@ required
 
 
 
-<input
+{/*<input
 name="cpf"
 placeholder="CPF"
 value={form.cpf}
@@ -554,7 +554,7 @@ required
 />
 
 {cpfErro && <p className="erro-cpf">{cpfErro}</p>}
-
+*/}
 
 <label className="date-label">
 <span className="date-icon">📅</span>
