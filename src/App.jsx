@@ -33,6 +33,23 @@ return(
 
 </main>
 
+<footer className="site-footer">
+
+<div className="container footer-content">
+
+<p>
+Esta mobilização é uma iniciativa do <strong>mandato da Vereadora Iza Lourença</strong>,
+da Câmara Municipal de Belo Horizonte.
+</p>
+
+<p className="footer-copy">
+© {new Date().getFullYear()} Minas contra o feminicídio
+</p>
+
+</div>
+
+</footer>
+
 </BrowserRouter>
 
 )
