@@ -5,12 +5,15 @@ import Home from "./pages/Home"
 import Feminicidio from "./pages/Feminicidio"
 import Pacto from "./pages/Pacto"
 import Denuncia from "./pages/Denuncie"
+import ScrollToTop from "./components/ScrollToTop"
 
 function App(){
 
 return(
 
 <BrowserRouter>
+
+<ScrollToTop/>
 
 <Header/>
 
