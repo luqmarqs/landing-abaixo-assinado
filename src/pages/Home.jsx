@@ -115,6 +115,16 @@ const resultado = fuse
 .slice(0,6)
 .map(r => r.item)
 
+/* se só existe uma cidade e ela é exatamente a digitada, não mostrar lista */
+
+if(
+resultado.length === 1 &&
+resultado[0].nome.toLowerCase() === cidadeBusca.toLowerCase()
+){
+setCidadesFiltradas([])
+return
+}
+
 setCidadesFiltradas(resultado)
 
 },[cidadeBusca,fuse])
@@ -637,6 +647,7 @@ placeholder="Cidade"
 value={cidadeBusca}
 autoComplete="off"
 onClick={(e)=>e.stopPropagation()}
+
 onChange={(e)=>{
 
 const value = e.target.value
@@ -650,14 +661,15 @@ cidade:value
 
 if(value.length > 2){
 
-const existe = cidadesMGJSON.some(c =>
+const existe = cidades.some(c =>
 c.nome.toLowerCase() === value.toLowerCase()
 )
 
 if(!existe){
-setCidadeErro("Selecione uma cidade válida de Minas Gerais")
+setCidadeErro("Selecione uma cidade válida")
 }else{
 setCidadeErro("")
+setCidadesFiltradas([]) // fecha sugestões se cidade válida
 }
 
 }else{
@@ -665,6 +677,13 @@ setCidadeErro("")
 }
 
 }}
+
+onKeyDown={(e)=>{
+if(e.key === "Enter"){
+setCidadesFiltradas([]) // fecha sugestões ao pressionar Enter
+}
+}}
+
 required
 />
 
@@ -679,11 +698,12 @@ className="cidade-sugestoes"
 onClick={(e)=>e.stopPropagation()}
 >
 
-{cidadesFiltradas.map((cidade)=>(
+{cidadesFiltradas.map((cidade,index)=>(
 
 <div
-key={cidade.id}
+key={cidade.id || index}
 className="cidade-item"
+
 onClick={()=>{
 
 setForm({
@@ -693,7 +713,7 @@ cidade:cidade.nome
 
 setCidadeBusca(cidade.nome)
 setCidadeErro("")
-setCidadesFiltradas([])
+setCidadesFiltradas([]) // fecha lista
 
 }}
 >
