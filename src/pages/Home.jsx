@@ -322,6 +322,7 @@ data.append("entry.2078748064_month",month)
 data.append("entry.2078748064_day",day)
 data.append("entry.1963593262",form.whatsapp)
 data.append("entry.1835698599",form.email)
+data.append("entry.1397297655", form.uf)
 data.append("entry.1434357970",form.cidade)
 data.append("entry.1477377412","Aceito política de privacidade")
 
