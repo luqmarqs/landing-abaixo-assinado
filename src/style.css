@@ -333,6 +333,36 @@ position:relative;
 
 }
 
+.modal h2{
+font-size:26px;
+margin-bottom:20px;
+}
+
+.modal p{
+line-height:1.7;
+margin-bottom:16px;
+color:#d6d6d6;
+}
+
+.modal strong{
+color:#ffffff;
+font-weight:600;
+}
+
+.modal{
+max-width:640px;
+padding:36px;
+}
+
+.modal::-webkit-scrollbar{
+width:6px;
+}
+
+.modal::-webkit-scrollbar-thumb{
+background:#444;
+border-radius:6px;
+}
+
 .close{
 
 position:absolute;
