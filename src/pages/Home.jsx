@@ -473,7 +473,7 @@ Ao aderir ao pacto, os estados assumem compromissos concretos para ampliar a red
 <h2>Qual é a situação das mulheres em Minas Gerais?</h2>
 
 <p>
-Minas Gerais é o segundo estado com mais feminicídios do Brasil, com números crescentes ao longo dos últimos anos. Mulheres são assassinadas por opressão de gênero, muitas vezes após ciclos prolongados de violência doméstica, ameaças e agressões.
+Minas Gerais é o segundo estado com mais feminicídios do Brasil, com números crescentes ao longo dos últimos anos. Mulheres são assassinadas pela opressão de gênero, muitas vezes após ciclos prolongados de violência doméstica, ameaças e agressões.
 </p>
 
 <p>
