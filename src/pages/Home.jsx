@@ -837,36 +837,29 @@ onClick={()=>setShowPrivacy(false)}
 
 <h2>Política de Privacidade</h2>
 
-<p>
-Este abaixo-assinado é uma iniciativa do <strong>mandato da Vereadora Iza Lourença,
-da Câmara Municipal de Belo Horizonte</strong>, voltada à mobilização da sociedade
-civil pela adesão do Estado de Minas Gerais ao
-<strong> Pacto Nacional de Enfrentamento ao Feminicídio</strong>.
-</p>
+  <p>
+    Este abaixo-assinado é uma iniciativa do mandato da Vereadora Iza Lourença, da Câmara Municipal de Belo Horizonte, voltada à mobilização da sociedade civil pela adesão do Estado de Minas Gerais ao Pacto Nacional de Enfrentamento ao Feminicídio.
+  </p>
 
-<p>
-Os dados coletados neste formulário — como nome, CPF, data de nascimento,
-cidade, telefone e e-mail — têm como única finalidade validar e contabilizar
-as assinaturas do abaixo-assinado e demonstrar apoio público à iniciativa.
-</p>
+  <p>
+    Os dados informados neste formulário, como nome, cidade e formas de contato, são coletados com a finalidade de registrar e contabilizar as manifestações de apoio à iniciativa, bem como para fins de organização, comunicação e mobilização relacionadas às atividades públicas e institucionais do mandato.
+  </p>
 
-<p>
-As informações fornecidas não serão comercializadas nem compartilhadas
-com terceiros para fins comerciais. O tratamento dos dados ocorre de acordo
-com os princípios da <strong>Lei Geral de Proteção de Dados (Lei nº 13.709/2018)</strong>.
-</p>
+  <p>
+    As informações fornecidas não serão comercializadas nem compartilhadas com terceiros para fins comerciais. O mandato poderá utilizar os dados para comunicação com apoiadores, divulgação de iniciativas, mobilizações e outras atividades relacionadas à atuação pública da vereadora.
+  </p>
 
-<p>
-O mandato da Vereadora Iza Lourença é o responsável institucional pela
-iniciativa e pelo tratamento dos dados coletados nesta página, comprometendo-se
-a utilizá-los exclusivamente para fins relacionados à mobilização e
-encaminhamento institucional do abaixo-assinado.
-</p>
+  <p>
+    O tratamento das informações ocorre em conformidade com os princípios da Lei Geral de Proteção de Dados (Lei nº 13.709/2018).
+  </p>
 
-<p>
-Ao prosseguir com a assinatura, você declara estar ciente e de acordo com
-o uso dessas informações para os fins descritos acima.
-</p>
+  <p>
+    O mandato da Vereadora Iza Lourença é o responsável institucional pela iniciativa e pela gestão das informações fornecidas nesta página.
+  </p>
+
+  <p>
+    Ao prosseguir com a assinatura, você declara estar ciente e de acordo com os termos acima.
+  </p>
 
 </div>
 
