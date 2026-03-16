@@ -415,11 +415,11 @@ Pressione agora para que MG integre essa rede.
 
 <div className="hero-actions">
 
-{/* 
+{
 <p className="counter">
 <strong>{`${assinaturas} pessoas já assinaram`}</strong>
 </p>
-*/}
+}
 
 <a
 href="#assinar"
