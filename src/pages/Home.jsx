@@ -19,7 +19,8 @@ lgpd:false
 
 const [cpfErro,setCpfErro]=useState("")
 const [showPrivacy,setShowPrivacy]=useState(false)
-const [assinaturas,setAssinaturas]=useState(1000)
+const [assinaturas,setAssinaturas]=useState(900)
+const [target,setTarget]=useState(null)
 const [telefoneErro,setTelefoneErro]=useState("")
 const [emailErro,setEmailErro] = useState("")
 
@@ -37,29 +38,39 @@ texto
 .toLowerCase()
 
 
-function animarContador(inicio, fim, duracao = 1200) {
+useEffect(()=>{
 
-  const startTime = performance.now()
+let frame
+let contador = assinaturas
 
-  function atualizar(tempo) {
+function animar(){
 
-    const progresso = Math.min((tempo - startTime) / duracao, 1)
+setAssinaturas(prev => {
 
-    const valor = Math.floor(
-      inicio + (fim - inicio) * progresso
-    )
+if(target !== null){
 
-    setAssinaturas(valor)
+if(prev >= target) return target
 
-    if (progresso < 1) {
-      requestAnimationFrame(atualizar)
-    }
-
-  }
-
-  requestAnimationFrame(atualizar)
+return prev + Math.ceil((target - prev) / 25)
 
 }
+
+// velocidade enquanto API não responde
+contador += 0.2
+
+return Math.floor(contador)
+
+})
+
+frame = requestAnimationFrame(animar)
+
+}
+
+frame = requestAnimationFrame(animar)
+
+return () => cancelAnimationFrame(frame)
+
+},[target])
 
 useEffect(()=>{
 
@@ -73,7 +84,7 @@ const res = await fetch(
 
 const data = await res.json()
 
-animarContador(assinaturas, Number(data.assinaturas))
+setTarget(Number(data.assinaturas))
 
 }catch(err){
 
@@ -439,11 +450,9 @@ Pressione agora para que MG integre essa rede.
 
 <div className="hero-actions">
 
-{assinaturas !== null && (
 <p className="counter">
 <strong>{assinaturas.toLocaleString("pt-BR")} pessoas já assinaram</strong>
 </p>
-)}
 
 <a
 href="#assinar"
