@@ -19,7 +19,7 @@ lgpd:false
 
 const [cpfErro,setCpfErro]=useState("")
 const [showPrivacy,setShowPrivacy]=useState(false)
-const [assinaturas,setAssinaturas]=useState(0)
+const [assinaturas,setAssinaturas]=useState(1000)
 const [telefoneErro,setTelefoneErro]=useState("")
 const [emailErro,setEmailErro] = useState("")
 
