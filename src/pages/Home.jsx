@@ -40,6 +40,30 @@ texto
 .toLowerCase()
 
 
+function animarContador(inicio, fim, duracao = 1200) {
+
+  const startTime = performance.now()
+
+  function atualizar(tempo) {
+
+    const progresso = Math.min((tempo - startTime) / duracao, 1)
+
+    const valor = Math.floor(
+      inicio + (fim - inicio) * progresso
+    )
+
+    setAssinaturas(valor)
+
+    if (progresso < 1) {
+      requestAnimationFrame(atualizar)
+    }
+
+  }
+
+  requestAnimationFrame(atualizar)
+
+}
+
 useEffect(()=>{
 
 async function carregarAssinaturas(){
@@ -52,8 +76,7 @@ const res = await fetch(
 
 const data = await res.json()
 
-setAssinaturas(Number(data.assinaturas))
-localStorage.setItem("contador-assinaturas", data.assinaturas)
+animarContador(assinaturas, Number(data.assinaturas))
 
 }catch(err){
 
