@@ -19,7 +19,10 @@ lgpd:false
 
 const [cpfErro,setCpfErro]=useState("")
 const [showPrivacy,setShowPrivacy]=useState(false)
-const [assinaturas,setAssinaturas]=useState(0)
+const [assinaturas,setAssinaturas]=useState(() => {
+  const cache = localStorage.getItem("contador-assinaturas")
+  return cache ? Number(cache) : null
+})
 const [telefoneErro,setTelefoneErro]=useState("")
 const [emailErro,setEmailErro] = useState("")
 
@@ -49,7 +52,8 @@ const res = await fetch(
 
 const data = await res.json()
 
-setAssinaturas(data.assinaturas)
+setAssinaturas(Number(data.assinaturas))
+localStorage.setItem("contador-assinaturas", data.assinaturas)
 
 }catch(err){
 
@@ -415,11 +419,11 @@ Pressione agora para que MG integre essa rede.
 
 <div className="hero-actions">
 
-{
+{assinaturas !== null && (
 <p className="counter">
-<strong>{`${assinaturas} pessoas já assinaram`}</strong>
+<strong>{assinaturas.toLocaleString("pt-BR")} pessoas já assinaram</strong>
 </p>
-}
+)}
 
 <a
 href="#assinar"
